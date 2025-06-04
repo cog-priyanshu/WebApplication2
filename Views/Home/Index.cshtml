@@ -1,0 +1,328 @@
+﻿@model IEnumerable<WebApplication2.Models.Team>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@* <h1>Index</h1> *@
+
+@* <p> *@
+@*     <a asp-action="Create">Create New</a> *@
+@* </p> *@
+@* <table class="table"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.Name) *@
+@*             </th> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.City) *@
+@*             </th> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.Country) *@
+@*             </th> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.Phone) *@
+@*             </th> *@
+@*             <th></th> *@
+@*         </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@* @foreach (var item in Model) { *@
+@*         <tr> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Name) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.City) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Country) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Phone) *@
+@*             </td> *@
+@*             <td> *@
+@*                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
+@*                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> | *@
+@*                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+@*             </td> *@
+@*         </tr> *@
+@* } *@
+@*     </tbody> *@
+@* </table> *@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Index</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff; /* Changed to white background */
+            color: #343a40; /* Ensure text remains readable */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column; /* Arrange content and footer in a column */
+        }
+
+        /* Keyframes for header load animation - REMOVED */
+
+        .container-fluid {
+            flex-grow: 1; /* Allow main content to grow and push footer down */
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .card {
+            border-radius: 0.75rem; /* More rounded corners for the card */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+
+        .table-responsive {
+            border-radius: 0.5rem; /* Rounded corners for table container */
+            overflow-x: auto; /* Ensure responsiveness for small screens */
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2); /* Stronger, softer shadow */
+        }
+
+        .table {
+            background-color: rgba(144, 209, 202, 0.3); /* Translucent 90D1CA */
+            backdrop-filter: blur(25px); /* Increased blur for stronger frosted effect */
+            -webkit-backdrop-filter: blur(25px); /* For Safari support */
+            --bs-table-bg: transparent; /* Override Bootstrap's table background */
+            --bs-table-striped-bg: rgba(144, 209, 202, 0.1); /* Lighter stripe background with transparency */
+            --bs-table-hover-bg: rgba(144, 209, 202, 0.2); /* Lighter hover background with transparency */
+            border-radius: 0.5rem; /* Rounded corners for the table itself */
+            overflow: hidden; /* Ensures rounded corners apply correctly */
+        }
+
+            .table thead {
+                /* animation: header-slide-in 0.8s ease-out forwards; - REMOVED */
+            }
+
+                .table thead th {
+                    background: linear-gradient(to right, #129990, #096B68); /* Deeper teal gradient */
+                    color: white;
+                    border-bottom: none; /* Remove default border */
+                    padding: 1rem;
+                    vertical-align: middle;
+                    position: sticky; /* Make header sticky for scrolling tables */
+                    top: 0;
+                    z-index: 1; /* Ensure header stays above content */
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for header cells */
+                    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for hover */
+                }
+
+                .table thead tr:first-child th:first-child {
+                    border-top-left-radius: 0.5rem;
+                }
+
+                .table thead tr:first-child th:last-child {
+                    border-top-right-radius: 0.5rem;
+                }
+
+                .table thead th:hover {
+                    transform: translateY(-3px); /* Slight lift on hover */
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More prominent shadow on hover */
+                }
+
+            .table tbody tr {
+                transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for row hover */
+            }
+
+                .table tbody tr:hover {
+                    transform: translateY(-2px); /* Slight lift on hover */
+                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* More prominent shadow on hover */
+                }
+
+                .table tbody tr:last-child td {
+                    border-bottom: none; /* Remove border from last row */
+                }
+
+            .table tbody td {
+                padding: 0.75rem;
+                vertical-align: middle;
+            }
+
+        .btn {
+            border-radius: 0.5rem; /* Rounded buttons */
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out; /* Smooth transition for all button states */
+        }
+        /* Custom styles for the Create New button */
+        .btn-create-new {
+            background-color: #90D1CA; /* Light teal */
+            border-color: #90D1CA;
+            color: #096B68; /* Darker teal text for contrast */
+        }
+
+            .btn-create-new:hover {
+                background-color: #129990; /* Darker teal on hover */
+                border-color: #129990;
+                color: white; /* White text on hover for better contrast */
+                transform: translateY(-2px) scale(1.02); /* Slight lift and scale on hover */
+                box-shadow: 0 0.25rem 0.5rem rgba(18, 153, 144, 0.4); /* Teal shadow on hover */
+            }
+        /* Original btn-primary styles (if needed elsewhere, but not used for Create New now) */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+                transform: translateY(-2px) scale(1.02); /* Slight lift and scale on hover */
+                box-shadow: 0 0.25rem 0.5rem rgba(0, 123, 255, 0.25); /* Blue shadow on hover */
+            }
+
+        .btn-outline-info {
+            color: #90D1CA; /* Light teal */
+            border-color: #90D1CA;
+        }
+
+            .btn-outline-info:hover {
+                background-color: #129990; /* Darker teal */
+                color: white;
+                transform: scale(1.05); /* Slight scale on hover */
+                box-shadow: 0 0.125rem 0.25rem rgba(18, 153, 144, 0.2);
+            }
+
+        .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                color: white;
+                transform: scale(1.05);
+                box-shadow: 0 0.125rem 0.25rem rgba(108, 117, 125, 0.2);
+            }
+
+        .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+            .btn-outline-danger:hover {
+                background-color: #dc3545;
+                color: white;
+                transform: scale(1.05);
+                box-shadow: 0 0.125rem 0.25rem rgba(220, 53, 69, 0.2);
+            }
+
+        h1 {
+            color: white; /* Changed heading color to white for better contrast on translucent footer */
+            margin-bottom: 0; /* Adjust margin for footer layout */
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Stronger shadow for readability */
+            transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out; /* Smooth transition for hover */
+        }
+
+            h1:hover {
+                color: #FFFBDE; /* Creamy yellow on hover */
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6); /* More prominent shadow on hover */
+            }
+
+        .action-buttons {
+            display: flex; /* Use flexbox */
+            flex-wrap: nowrap; /* Prevent wrapping */
+            align-items: center; /* Vertically center items */
+            justify-content: center; /* Horizontally center items */
+            gap: 0.25rem; /* Space between action buttons */
+        }
+
+        /* Footer styles */
+        footer {
+            margin-top: auto; /* Push footer to the bottom */
+            width: 100%;
+            padding: 1.5rem 1rem;
+            display: flex;
+            justify-content: space-between; /* Space out heading and button */
+            align-items: center;
+            background-color: rgba(144, 209, 202, 0.3); /* Translucent 90D1CA */
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Subtle top border */
+            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners */
+            box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.1); /* Subtle shadow at the top */
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for hover */
+        }
+
+            footer:hover {
+                background-color: rgba(144, 209, 202, 0.4); /* Slightly less transparent on hover */
+                box-shadow: 0 -0.75rem 1.5rem rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
+            }
+
+            footer .h1-in-footer {
+                margin-right: 1rem; /* Space between h1 and button */
+                margin-left: 1rem; /* Add some left margin */
+            }
+
+            footer .btn-in-footer {
+                margin-left: 1rem; /* Space between h1 and button */
+                margin-right: 1rem; /* Add some right margin */
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="px-4 py-3">Name</th>
+                                <th scope="col" class="px-4 py-3">City</th>
+                                <th scope="col" class="px-4 py-3">Country</th>
+                                <th scope="col" class="px-4 py-3">Phone</th>
+                                <th scope="col" class="px-4 py-3 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* This foreach loop will render data from your Model *@
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <div class="action-buttons">
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Edit</a>
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h1 class="text-3xl font-semibold h1-in-footer">Team Index</h1>
+        <a asp-action="Create" class="btn btn-create-new shadow-sm btn-in-footer">Create New</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+        // No Gemini API related JavaScript as the button is no longer present
+    </script>
+</body>
+</html>
+
